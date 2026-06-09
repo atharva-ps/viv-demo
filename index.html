@@ -5971,7 +5971,7 @@
   }
   window.addEventListener('scroll', onScrollRAF, { passive: true });
   window.addEventListener('resize', onScrollRAF, { passive: true });
-  var observer = new MutationObserver(function(mutations) {
+  var styleObserver = new MutationObserver(function(mutations) {
     for (var i = 0; i < mutations.length; i++) {
       var m = mutations[i];
       if (m.type === 'attributes' && m.attributeName === 'style') {
@@ -5985,15 +5985,29 @@
   function attachObserver() {
     var left = document.getElementById('jb-left-rail');
     var right = document.getElementById('jb-right-rail');
-    if (left) observer.observe(left, { attributes: true, attributeFilter: ['style'] });
-    if (right) observer.observe(right, { attributes: true, attributeFilter: ['style'] });
+    if (left) styleObserver.observe(left, { attributes: true, attributeFilter: ['style'] });
+    if (right) styleObserver.observe(right, { attributes: true, attributeFilter: ['style'] });
     constrainStickyAds();
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(attachObserver, 500); });
-  } else {
-    setTimeout(attachObserver, 500);
-  }
+  var domObserver = new MutationObserver(function() {
+    var left = document.getElementById('jb-left-rail');
+    var right = document.getElementById('jb-right-rail');
+    if (left || right) {
+      domObserver.disconnect();
+      attachObserver();
+    }
+  });
+  domObserver.observe(document.body, { childList: true, subtree: true });
+  var checkInterval = setInterval(function() {
+    var left = document.getElementById('jb-left-rail');
+    var right = document.getElementById('jb-right-rail');
+    if (left || right) {
+      clearInterval(checkInterval);
+      domObserver.disconnect();
+      attachObserver();
+    }
+  }, 200);
+  setTimeout(function() { clearInterval(checkInterval); }, 10000);
 })();
 </script></body>
 
