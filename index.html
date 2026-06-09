@@ -906,6 +906,217 @@
       font-size: 15px;
     }
   </style>
+
+<style id="responsive-fix">
+  /* ========================================
+     RESPONSIVE FIXES
+     ======================================== */
+
+  /* Make all images responsive */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Fix inline-styled image wrappers */
+  div[style*="width: 800px"],
+  div[style*="width:800px"],
+  figure[style*="width: 800px"],
+  figure[style*="width:800px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Fix ad containers with fixed inline widths */
+  .jb-acme-ad-container,
+  .jb-acme-ad {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Fix iframes inside ad containers */
+  .jb-acme-ad-container iframe,
+  .jb-acme-ad iframe,
+  #JBM_VOV_Top_Header iframe,
+  iframe[id*="google_ads"] {
+    max-width: 100% !important;
+  }
+
+  /* Fix embedded images with inline style width */
+  .embedded-entity img,
+  .gallery-embed img,
+  .article-content img,
+  .detail--normal .article-content img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* FSM modal fix */
+  .fsm-modal {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* ---- MOBILE (max 767px) ---- */
+  @media (max-width: 767.98px) {
+
+    /* Body overflow fix */
+    body {
+      overflow-x: hidden !important;
+    }
+
+    html, .dialog-off-canvas-main-canvas {
+      overflow-x: hidden !important;
+    }
+
+    /* Header responsive */
+    .vovvn-header {
+      width: 100% !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+    }
+
+    .vovvn-header .container,
+    .vovvn-header .vovvn-navbar-mobile {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* Nav channel */
+    .nav-channel {
+      width: 100% !important;
+      overflow-x: hidden !important;
+    }
+
+    /* Article main column - full width on mobile */
+    .vovvn-body .col-xl-870,
+    .vovvn-body .col-lg-9,
+    .vovvn-body .col-md-12 {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+    }
+
+    /* Sidebar - full width on mobile, stack below */
+    .vovvn-body .col-xl-330,
+    .vovvn-body .col-lg-3 {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+    }
+
+    /* Container padding */
+    .vovvn-body .container {
+      padding: 12px 12px !important;
+    }
+
+    /* Article title size */
+    .detail--normal .article-title,
+    .detail--normal h1.article-title,
+    .article__inner-story h1.article-title {
+      font-size: 1.3rem !important;
+      line-height: 1.5 !important;
+    }
+
+    /* Related article images */
+    .field-related-article .media img {
+      width: 100% !important;
+      max-width: 120px !important;
+    }
+
+    /* Ad banner */
+    #JBM_VOV_Top_Header,
+    #JBM_VOV_Top_Header > div {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow: hidden !important;
+    }
+
+    /* Inline styled images in article */
+    .article-content div[style*="width"],
+    .article-content figure[style*="width"],
+    .article-content .embedded-entity {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* Inner article stories */
+    .article__inner-story .inner-article {
+      width: 100% !important;
+    }
+
+    /* Socials share */
+    .socials-share {
+      flex-wrap: wrap !important;
+    }
+
+    /* Footer */
+    .vovvn-footer .row {
+      flex-direction: column !important;
+    }
+  }
+
+  /* ---- TABLET (768px - 1229px) ---- */
+  @media (min-width: 768px) and (max-width: 1229.98px) {
+
+    /* Article column stacking */
+    .vovvn-body .col-xl-870 {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+    }
+
+    .vovvn-body .col-xl-330 {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 100% !important;
+    }
+
+    /* Ad containers */
+    .jb-acme-ad-container,
+    .jb-acme-ad {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
+  /* ---- SMALL MOBILE (max 575px) ---- */
+  @media (max-width: 575.98px) {
+
+    /* Header logo */
+    .vovvn-header .logo--image img {
+      height: 40px !important;
+    }
+
+    /* Nav channel horizontal scroll instead of overflow */
+    .nav-channel .navbar-nav {
+      overflow-x: auto !important;
+      flex-wrap: nowrap !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* Article title */
+    .detail--normal .article-title,
+    .detail--normal h1.article-title {
+      font-size: 1.15rem !important;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: 0.75rem !important;
+      flex-wrap: wrap !important;
+    }
+
+    /* Tags */
+    .article-tag, .tag-list {
+      flex-wrap: wrap !important;
+    }
+  }
+</style>
+
 </head>
 
 <body class="path-node page-node-type-article">
@@ -6009,6 +6220,88 @@
   }, 200);
   setTimeout(function() { clearInterval(checkInterval); }, 10000);
 })();
-</script></body>
+</script>
+<script id="responsive-js">
+(function() {
+  'use strict';
+
+  // Fix ad containers with dynamic inline widths
+  function fixAdContainerWidths() {
+    var vw = window.innerWidth;
+    var adContainers = document.querySelectorAll('.jb-acme-ad-container, .jb-acme-ad');
+    adContainers.forEach(function(el) {
+      var inlineW = parseInt(el.style.width);
+      if (inlineW && inlineW > vw) {
+        el.style.setProperty('width', '100%', 'important');
+        el.style.setProperty('max-width', '100%', 'important');
+        el.style.setProperty('overflow', 'hidden', 'important');
+      }
+    });
+
+    // Fix inline-styled images in article content
+    var articleImages = document.querySelectorAll('.article-content div[style*="width"], .article-content figure[style*="width"], .gallery-embed > div[style*="width"]');
+    articleImages.forEach(function(el) {
+      var inlineW = parseInt(el.style.width);
+      if (inlineW && inlineW > vw) {
+        el.style.setProperty('width', '100%', 'important');
+        el.style.setProperty('max-width', '100%', 'important');
+      }
+    });
+  }
+
+  // Prevent horizontal scroll on body
+  function fixOverflow() {
+    document.documentElement.style.overflowX = 'hidden';
+    document.body.style.overflowX = 'hidden';
+  }
+
+  // Run fixes on load and resize
+  function runFixes() {
+    fixAdContainerWidths();
+    fixOverflow();
+  }
+
+  // Use MutationObserver to catch dynamically added ad containers
+  var adObserver = new MutationObserver(function(mutations) {
+    var shouldFix = false;
+    for (var i = 0; i < mutations.length; i++) {
+      var m = mutations[i];
+      if (m.type === 'attributes' && m.attributeName === 'style') {
+        if (m.target.classList && (m.target.classList.contains('jb-acme-ad-container') || m.target.classList.contains('jb-acme-ad'))) {
+          shouldFix = true;
+          break;
+        }
+      } else if (m.type === 'childList') {
+        shouldFix = true;
+        break;
+      }
+    }
+    if (shouldFix) requestAnimationFrame(runFixes);
+  });
+
+  function init() {
+    runFixes();
+    // Observe the full document for dynamic ad style changes
+    adObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style']
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  window.addEventListener('resize', function() {
+    requestAnimationFrame(runFixes);
+  }, { passive: true });
+})();
+</script>
+
+</body>
 
 </html>
