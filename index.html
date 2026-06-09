@@ -1059,8 +1059,26 @@
     }
   }
 
-  /* ---- TABLET (768px - 1229px) ---- */
-  @media (min-width: 768px) and (max-width: 1229.98px) {
+  /* ---- MEDIUM (1080px - 1229px) two-column layout ---- */
+	  @media (min-width: 1080px) and (max-width: 1229.98px) {
+		      /* Content column - reduced width so sidebar stays visible */
+		      .vovvn-body .col-xl-870,
+		      .vovvn-body .col-lg-9 {
+				        flex: 0 0 auto;
+				        width: 68% !important;
+				        max-width: 68% !important;
+			  }
+		      /* Sidebar column */
+		      .vovvn-body .col-xl-330,
+		      .vovvn-body .col-lg-3 {
+				        flex: 0 0 auto;
+				        width: 30% !important;
+				        max-width: 30% !important;
+			  }
+	  }
+	
+  /* ---- TABLET (768px - 1079px) ---- */
+	@media (min-width: 768px) and (max-width: 1079.98px) {
 
     /* Article column stacking */
     .vovvn-body .col-xl-870 {
