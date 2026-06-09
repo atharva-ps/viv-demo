@@ -1011,7 +1011,7 @@
       <div class="container hidden-list-chanel">
         <div class="row w-100">
           <div class="col-12 b">
-            <div class="w-100" id="navbarNav">
+            <div class="w-100" id=navbarNav">
               <ul class="ps-2 ps-md-0 mb-0 d-flex align-items-center justify-content-center gap-2">
                 <li class="nav-item">
                   <a class="nav-link text-vov-red fw-bold py-1" target="_blank" href="https://vov1.vov.vn/">VOV1</a>
@@ -5932,6 +5932,69 @@
     </div><iframe style="display: none;" src="saved_resource(1).html"></iframe>
   </div>
   <div id="professor_prebid-root"></div>
-</body>
+
+<script>
+(function() {
+  function constrainStickyAds() {
+    var leftRail = document.getElementById('jb-left-rail');
+    var rightRail = document.getElementById('jb-right-rail');
+    if (!leftRail && !rightRail) return;
+    var header = document.querySelector('header.vovvn-header');
+    var footer = document.querySelector('footer.vovvn-footer');
+    if (!header || !footer) return;
+    var scrollY = window.scrollY || window.pageYOffset;
+    var vh = window.innerHeight;
+    var headerBottom = Math.max(0, header.offsetTop + header.offsetHeight - scrollY);
+    var footerTop = Math.min(vh, footer.offsetTop - scrollY);
+    var availableTop = headerBottom;
+    var availableBottom = footerTop;
+    var availableHeight = availableBottom - availableTop;
+    [leftRail, rightRail].forEach(function(rail) {
+      if (!rail || rail.style.display === 'none') return;
+      var adHeight = rail.offsetHeight;
+      var idealCenter = vh / 2;
+      if (adHeight <= availableHeight) {
+        var minCenter = availableTop + adHeight / 2;
+        var maxCenter = availableBottom - adHeight / 2;
+        idealCenter = Math.max(minCenter, Math.min(maxCenter, idealCenter));
+      } else {
+        idealCenter = availableBottom - adHeight / 2;
+      }
+      var newTop = idealCenter + 'px';
+      if (rail.style.top !== newTop) {
+        rail.style.top = newTop;
+      }
+    });
+  }
+  function onScrollRAF() {
+    requestAnimationFrame(constrainStickyAds);
+  }
+  window.addEventListener('scroll', onScrollRAF, { passive: true });
+  window.addEventListener('resize', onScrollRAF, { passive: true });
+  var observer = new MutationObserver(function(mutations) {
+    for (var i = 0; i < mutations.length; i++) {
+      var m = mutations[i];
+      if (m.type === 'attributes' && m.attributeName === 'style') {
+        if (m.target.id === 'jb-left-rail' || m.target.id === 'jb-right-rail') {
+          requestAnimationFrame(constrainStickyAds);
+          break;
+        }
+      }
+    }
+  });
+  function attachObserver() {
+    var left = document.getElementById('jb-left-rail');
+    var right = document.getElementById('jb-right-rail');
+    if (left) observer.observe(left, { attributes: true, attributeFilter: ['style'] });
+    if (right) observer.observe(right, { attributes: true, attributeFilter: ['style'] });
+    constrainStickyAds();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(attachObserver, 500); });
+  } else {
+    setTimeout(attachObserver, 500);
+  }
+})();
+</script></body>
 
 </html>
