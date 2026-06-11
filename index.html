@@ -17,8 +17,85 @@
     .vjs-fluid:not(.vjs-audio-only-mode) {
       padding-top: 56.25%
     }
-  
-        .vovvn-body .detail { padding-left: 25px; padding-right: 25px; }    @media (min-width: 1230px) {      .vovvn-body .col-xl-870 { width: 680px !important; }      .vovvn-body .col-xl-330 { width: 260px !important; }      .vovvn-body .container { max-width: 1010px !important; }  .vovvn-footer .container { max-width: 1010px !important; }   }</style>
+
+    .vovvn-body .detail {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+
+    /* ── Fluid content layout ─────────────────────────────────────────────
+       From 1280px up, the container is FLUID:
+         width = viewport − 2×190px  (190px reserved rail per side:
+                 160px ad + 30px breathing space), capped at 1230px.
+       This guarantees the side-sticky rails always exist at ≥1280px,
+       including when the user zooms in (zoom shrinks the CSS viewport,
+       the container shrinks with it, rails stay intact).
+       Below 1280px the theme's own responsive rules take over and the
+       content expands to full width (no side ads).
+    ──────────────────────────────────────────────────────────────────────── */
+    @media (min-width: 1280px) {
+
+      .vovvn-body .container,
+      .vovvn-footer .container {
+        width: min(1230px, calc(100vw - 30vw)) !important;
+      }
+
+      /* Sidebar keeps a fixed 260px; the article column absorbs all
+         remaining width so content genuinely expands on big screens. */
+      .vovvn-body .col-xl-870 {
+        width: calc(100% - 303px) !important;
+      }
+
+      .vovvn-body .col-xl-330 {
+        width: 260px !important;
+      }
+    }
+
+    /* 1230–1279px: no side ads — let content use the theme's full
+       1230px container instead of the old cramped 1010px one. */
+    @media (min-width: 1230px) and (max-width: 1279.98px) {
+      .vovvn-body .col-xl-870 {
+        width: calc(100% - 324px) !important;
+      }
+    }
+
+    /* ── Side Ad Slots (160×600 Wide Skyscraper) ──────────────────────────
+       Rails mirror the fluid container:
+         container half-width = min(615px, 50vw − 190px)
+       Ad sits centred in the 190px reserved rail (15px from the
+       viewport edge at the tightest fit, 15px from the container at
+       the widest). Visible at every viewport ≥ 1280px — including
+       browser zoom, since zoom shrinks the CSS viewport and the same
+       formula keeps the rail intact until 1280px, then hides it.
+    ──────────────────────────────────────────────────────────────────────── */
+    .side-ad-left,
+    .side-ad-right {
+      display: none;
+      position: fixed;
+      top: 120px;
+      /* clears the sticky header */
+      width: 160px;
+      height: 600px;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .side-ad-left {
+      left: calc(50% - min(615px, 50vw - 190px) - 175px);
+    }
+
+    .side-ad-right {
+      right: calc(50% - min(615px, 50vw - 190px) - 175px);
+    }
+
+    @media (min-width: 1280px) {
+
+      .side-ad-left,
+      .side-ad-right {
+        display: block;
+      }
+    }
+  </style>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <meta name="title"
@@ -142,6 +219,15 @@
         // check lần cuối
         toggleTitle();
       }, 16000);
+    });
+  </script>
+  <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" crossorigin="anonymous"></script>
+  <script>
+    window.googletag = window.googletag || { cmd: [] };
+    googletag.cmd.push(function () {
+      googletag.defineSlot('/22846411849/JBM_Vov.vn_300x600', [300, 600], 'div-gpt-ad-1781152438675-0').addService(googletag.pubads());
+      googletag.pubads().enableSingleRequest();
+      googletag.enableServices();
     });
   </script>
 
@@ -908,233 +994,222 @@
     }
   </style>
 
-<style id="responsive-fix">
-  /* ========================================
+  <style id="responsive-fix">
+    /* ========================================
      RESPONSIVE FIXES
      ======================================== */
 
-  /* Make all images responsive */
-  img {
-    max-width: 100% !important;
-    height: auto !important;
-  }
-
-  /* Fix inline-styled image wrappers */
-  div[style*="width: 800px"],
-  div[style*="width:800px"],
-  figure[style*="width: 800px"],
-  figure[style*="width:800px"] {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  /* Fix ad containers with fixed inline widths */
-  .jb-acme-ad-container,
-  .jb-acme-ad {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Fix iframes inside ad containers */
-  .jb-acme-ad-container iframe,
-  .jb-acme-ad iframe,
-  #JBM_VOV_Top_Header iframe,
-  iframe[id*="google_ads"] {
-    max-width: 100% !important;
-  }
-
-  /* Fix embedded images with inline style width */
-  .embedded-entity img,
-  .gallery-embed img,
-  .article-content img,
-  .detail--normal .article-content img {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-  }
-
-  /* FSM modal fix */
-  .fsm-modal {
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-  }
-
-  /* ---- MOBILE (max 767px) ---- */
-  @media (max-width: 767.98px) {
-
-    /* Body overflow fix */
-    body {
-      overflow-x: hidden !important;
+    /* Make all images responsive */
+    img {
+      max-width: 100% !important;
+      height: auto !important;
     }
 
-    html, .dialog-off-canvas-main-canvas {
-      overflow-x: hidden !important;
-    }
-
-    /* Header responsive */
-    .vovvn-header {
-      width: 100% !important;
-      max-width: 100vw !important;
-      overflow-x: hidden !important;
-    }
-
-    .vovvn-header .container,
-    .vovvn-header .vovvn-navbar-mobile {
+    /* Fix inline-styled image wrappers */
+    div[style*="width: 800px"],
+    div[style*="width:800px"],
+    figure[style*="width: 800px"],
+    figure[style*="width:800px"] {
       width: 100% !important;
       max-width: 100% !important;
     }
 
-    /* Nav channel */
-    .nav-channel {
-      width: 100% !important;
-      overflow-x: hidden !important;
-    }
-
-    /* Article main column - full width on mobile */
-    .vovvn-body .col-xl-870,
-    .vovvn-body .col-lg-9,
-    .vovvn-body .col-md-12 {
-      width: 100% !important;
-      max-width: 100% !important;
-      flex: 0 0 100% !important;
-    }
-
-    /* Sidebar - full width on mobile, stack below */
-    .vovvn-body .col-xl-330,
-    .vovvn-body .col-lg-3 {
-      width: 100% !important;
-      max-width: 100% !important;
-      flex: 0 0 100% !important;
-    }
-
-    /* Container padding */
-    .vovvn-body .container {
-      padding: 12px 12px !important;
-    }
-
-    /* Article title size */
-    .detail--normal .article-title,
-    .detail--normal h1.article-title,
-    .article__inner-story h1.article-title {
-      font-size: 1.3rem !important;
-      line-height: 1.5 !important;
-    }
-
-    /* Related article images */
-    .field-related-article .media img {
-      width: 100% !important;
-      max-width: 120px !important;
-    }
-
-    /* Ad banner */
-    #JBM_VOV_Top_Header,
-    #JBM_VOV_Top_Header > div {
-      width: 100% !important;
-      max-width: 100% !important;
-      overflow: hidden !important;
-    }
-
-    /* Inline styled images in article */
-    .article-content div[style*="width"],
-    .article-content figure[style*="width"],
-    .article-content .embedded-entity {
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-
-    /* Inner article stories */
-    .article__inner-story .inner-article {
-      width: 100% !important;
-    }
-
-    /* Socials share */
-    .socials-share {
-      flex-wrap: wrap !important;
-    }
-
-    /* Footer */
-    .vovvn-footer .row {
-      flex-direction: column !important;
-    }
-  }
-
-  /* ---- MEDIUM (1080px - 1229px) two-column layout ---- */
-	  @media (min-width: 1080px) and (max-width: 1229.98px) {
-		      /* Content column - reduced width so sidebar stays visible */
-		      .vovvn-body .col-xl-870,
-		      .vovvn-body .col-lg-9 {
-				        flex: 0 0 auto;
-				        width: 68% !important;
-				        max-width: 68% !important;
-			  }
-		      /* Sidebar column */
-		      .vovvn-body .col-xl-330,
-		      .vovvn-body .col-lg-3 {
-				        flex: 0 0 auto;
-				        width: 30% !important;
-				        max-width: 30% !important;
-			  }
-	  }
-	
-  /* ---- TABLET (768px - 1079px) ---- */
-	@media (min-width: 768px) and (max-width: 1079.98px) {
-
-    /* Article column stacking */
-    .vovvn-body .col-xl-870 {
-      width: 100% !important;
-      max-width: 100% !important;
-      flex: 0 0 100% !important;
-    }
-
-    .vovvn-body .col-xl-330 {
-      width: 100% !important;
-      max-width: 100% !important;
-      flex: 0 0 100% !important;
-    }
-
-    /* Ad containers */
+    /* Fix ad containers with fixed inline widths */
     .jb-acme-ad-container,
     .jb-acme-ad {
       width: 100% !important;
       max-width: 100% !important;
-    }
-  }
-
-  /* ---- SMALL MOBILE (max 575px) ---- */
-  @media (max-width: 575.98px) {
-
-    /* Header logo */
-    .vovvn-header .logo--image img {
-      height: 40px !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
     }
 
-    /* Nav channel horizontal scroll instead of overflow */
-    .nav-channel .navbar-nav {
-      overflow-x: auto !important;
-      flex-wrap: nowrap !important;
-      -webkit-overflow-scrolling: touch !important;
+
+    /* Fix embedded images with inline style width */
+    .embedded-entity img,
+    .gallery-embed img,
+    .article-content img,
+    .detail--normal .article-content img {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
     }
 
-    /* Article title */
-    .detail--normal .article-title,
-    .detail--normal h1.article-title {
-      font-size: 1.15rem !important;
+    /* FSM modal fix */
+    .fsm-modal {
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
     }
 
-    /* Breadcrumb */
-    .breadcrumb {
-      font-size: 0.75rem !important;
-      flex-wrap: wrap !important;
+    /* ---- MOBILE (max 767px) ---- */
+    @media (max-width: 767.98px) {
+
+      /* Body overflow fix */
+      body {
+        overflow-x: hidden !important;
+      }
+
+      html,
+      .dialog-off-canvas-main-canvas {
+        overflow-x: hidden !important;
+      }
+
+      /* Header responsive */
+      .vovvn-header {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+      }
+
+      .vovvn-header .container,
+      .vovvn-header .vovvn-navbar-mobile {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      /* Nav channel */
+      .nav-channel {
+        width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      /* Article main column - full width on mobile */
+      .vovvn-body .col-xl-870,
+      .vovvn-body .col-lg-9,
+      .vovvn-body .col-md-12 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+      }
+
+      /* Sidebar - full width on mobile, stack below */
+      .vovvn-body .col-xl-330,
+      .vovvn-body .col-lg-3 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+      }
+
+      /* Container padding */
+      .vovvn-body .container {
+        padding: 12px 12px !important;
+      }
+
+      /* Article title size */
+      .detail--normal .article-title,
+      .detail--normal h1.article-title,
+      .article__inner-story h1.article-title {
+        font-size: 1.3rem !important;
+        line-height: 1.5 !important;
+      }
+
+      /* Related article images */
+      .field-related-article .media img {
+        width: 100% !important;
+        max-width: 120px !important;
+      }
+
+      /* Inline styled images in article */
+      .article-content div[style*="width"],
+      .article-content figure[style*="width"],
+      .article-content .embedded-entity {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      /* Inner article stories */
+      .article__inner-story .inner-article {
+        width: 100% !important;
+      }
+
+      /* Socials share */
+      .socials-share {
+        flex-wrap: wrap !important;
+      }
+
+      /* Footer */
+      .vovvn-footer .row {
+        flex-direction: column !important;
+      }
     }
 
-    /* Tags */
-    .article-tag, .tag-list {
-      flex-wrap: wrap !important;
+    /* ---- MEDIUM (1080px - 1229px) two-column layout ---- */
+    @media (min-width: 1080px) and (max-width: 1229.98px) {
+
+      /* Content column - reduced width so sidebar stays visible */
+      .vovvn-body .col-xl-870,
+      .vovvn-body .col-lg-9 {
+        flex: 0 0 auto;
+        width: 68% !important;
+        max-width: 68% !important;
+      }
+
+      /* Sidebar column */
+      .vovvn-body .col-xl-330,
+      .vovvn-body .col-lg-3 {
+        flex: 0 0 auto;
+        width: 30% !important;
+        max-width: 30% !important;
+      }
     }
-  }
-</style>
+
+    /* ---- TABLET (768px - 1079px) ---- */
+    @media (min-width: 768px) and (max-width: 1079.98px) {
+
+      /* Article column stacking */
+      .vovvn-body .col-xl-870 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+      }
+
+      .vovvn-body .col-xl-330 {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+      }
+
+      /* Ad containers */
+      .jb-acme-ad-container,
+      .jb-acme-ad {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    /* ---- SMALL MOBILE (max 575px) ---- */
+    @media (max-width: 575.98px) {
+
+      /* Header logo */
+      .vovvn-header .logo--image img {
+        height: 40px !important;
+      }
+
+      /* Nav channel horizontal scroll instead of overflow */
+      .nav-channel .navbar-nav {
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      /* Article title */
+      .detail--normal .article-title,
+      .detail--normal h1.article-title {
+        font-size: 1.15rem !important;
+      }
+
+      /* Breadcrumb */
+      .breadcrumb {
+        font-size: 0.75rem !important;
+        flex-wrap: wrap !important;
+      }
+
+      /* Tags */
+      .article-tag,
+      .tag-list {
+        flex-wrap: wrap !important;
+      }
+    }
+  </style>
 
 </head>
 
@@ -1236,8 +1311,9 @@
     }
   </style>
 
-  <nav style="z-index: 6" class="bg-light nav-channel">
-    <div class="container-fluid p-0">
+
+  <nav style="z-index: 6" class="bg-light nav-channel" google-side-rail-overlap="false">
+    <div class="container-fluid p-0" google-side-rail-overlap="false">
       <div class="container hidden-list-chanel">
         <div class="row w-100">
           <div class="col-12 b">
@@ -1303,9 +1379,9 @@
   </a>
 
   <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas="">
-    <div id="header-placeholder" style="display: none; height: 154px;"></div>
-    <header class="vovvn-header menu-mobile-fixed">
-      <div class="container pt-2 pt-md-4 pb-md-3 mt-md-2 vovvn-navbar-mobile">
+    <div id="header-placeholder" style="display: none; height: 154px;" google-side-rail-overlap="false"></div>
+    <header class="vovvn-header menu-mobile-fixed" google-side-rail-overlap="false">
+      <div class="container pt-2 pt-md-4 pb-md-0 mt-md-0 vovvn-navbar-mobile">
         <style>
           .vovvn-navbar-sticky .row-header {
             margin-bottom: 10px;
@@ -1692,8 +1768,8 @@
               <img src="menu_open1.svg">
             </a>
             <div class="vsh-logo">
-              <a href="https://vov.vn/" class="vsh-lang-link"><img class="vov-special-logo"
-                  src="logo-special.svg" alt="VOV"></a>
+              <a href="https://vov.vn/" class="vsh-lang-link"><img class="vov-special-logo" src="logo-special.svg"
+                  alt="VOV"></a>
             </div>
             <div class="vsh-lang">
               <a style="font-weight: bold; font-size: 16px;" href="https://english.vov.vn/"
@@ -1940,7 +2016,8 @@
                     </button>
 
                     <ul class="dropdown-menu-custom">
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="21.027764,105.834160">Hà Nội
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="21.027764,105.834160">Hà
+                        Nội
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon">
                             <svg class="me-2" width="16" height="16" data-action="default"
@@ -1974,7 +2051,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="21.328070,103.914337">Sơn La
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="21.328070,103.914337">Sơn
+                        La
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
                               height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -2007,7 +2085,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="21.819351,105.214399">Tuyên
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="21.819351,105.214399">
+                        Tuyên
                         Quang
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
@@ -2109,7 +2188,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="20.971197,107.044805">Quảng
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="20.971197,107.044805">
+                        Quảng
                         Ninh
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
@@ -2177,7 +2257,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="19.806692,105.785181">Thanh
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="19.806692,105.785181">
+                        Thanh
                         Hóa
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
@@ -2228,7 +2309,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="16.816313,107.100353">Quảng
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="16.816313,107.100353">
+                        Quảng
                         Trị
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
@@ -2262,7 +2344,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="15.121387,108.804817">Quảng
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="15.121387,108.804817">
+                        Quảng
                         Ngãi
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
@@ -2313,7 +2396,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="12.238791,109.196749">Khánh
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="12.238791,109.196749">
+                        Khánh
                         Hòa
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
@@ -2466,7 +2550,8 @@
                             </svg> Xem </span>
                         </div>
                       </li>
-                      <li class="d-flex align-items-center gap-3 item-location" data-value="9.176673,105.152420">Cà Mau
+                      <li class="d-flex align-items-center gap-3 item-location" data-value="9.176673,105.152420">Cà
+                        Mau
                         <div class="d-flex align-items-center gap-3">
                           <span data-action="default" class="d-none custom-icon"><svg class="me-2" width="16"
                               height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -2500,7 +2585,8 @@
                   </a>
                 </div>
 
-                <div class="js-date-now" style="font-size:12px!important;color:#757575;line-height:20px">Thứ Năm, ngày 4
+                <div class="js-date-now" style="font-size:12px!important;color:#757575;line-height:20px">Thứ Năm, ngày
+                  4
                   tháng 6 năm 2026</div>
               </div>
             </div>
@@ -3087,7 +3173,8 @@
 
                   <a href="https://vov.vn/chinh-tri/quoc-hoi" class="fw-normal nav-link nav-item">Quốc hội</a>
 
-                  <a href="https://vov.vn/chinh-tri/nhan-dien-su-that" class="fw-normal nav-link nav-item">Nhận diện sự
+                  <a href="https://vov.vn/chinh-tri/nhan-dien-su-that" class="fw-normal nav-link nav-item">Nhận diện
+                    sự
                     thật</a>
                 </div>
               </div>
@@ -3221,7 +3308,8 @@
 
                   <a href="https://vov.vn/cong-nghe/sanh-dieu" class="fw-normal nav-link nav-item">Sành điệu</a>
 
-                  <a href="https://vov.vn/cong-nghe/tin-cong-nghe" class="fw-normal nav-link nav-item">Tin Công nghệ</a>
+                  <a href="https://vov.vn/cong-nghe/tin-cong-nghe" class="fw-normal nav-link nav-item">Tin Công
+                    nghệ</a>
 
                   <a href="https://vov.vn/cong-nghe/trai-nghiem" class="fw-normal nav-link nav-item">Trải nghiệm</a>
 
@@ -3259,14 +3347,16 @@
 
                   <a href="https://vov.vn/blog" class="fw-normal nav-link nav-item">Blog</a>
 
-                  <a href="https://vov.vn/tinh-yeu-gia-dinh" class="fw-normal nav-link nav-item">Tình yêu - Gia đình</a>
+                  <a href="https://vov.vn/tinh-yeu-gia-dinh" class="fw-normal nav-link nav-item">Tình yêu - Gia
+                    đình</a>
                 </div>
               </div>
               <div class="nav-item ">
                 <a href="https://vov.vn/van-hoa" class="nav-link fw-normal nowrap">Văn hóa</a>
                 <div class="navbar-nav-sub">
 
-                  <a href="https://vov.vn/van-hoa/dien-anh" class="fw-normal nav-link nav-item">Sân khấu - Điện ảnh</a>
+                  <a href="https://vov.vn/van-hoa/dien-anh" class="fw-normal nav-link nav-item">Sân khấu - Điện
+                    ảnh</a>
 
                   <a href="https://vov.vn/van-hoa/van-hoc" class="fw-normal nav-link nav-item">Văn học</a>
 
@@ -3283,7 +3373,8 @@
 
                   <a href="https://vov.vn/thoi-trang-lam-dep" class="fw-normal nav-link nav-item">Thời trang</a>
 
-                  <a href="https://vov.vn/giai-tri/hau-truong-showbiz" class="fw-normal nav-link nav-item">Sao Việt</a>
+                  <a href="https://vov.vn/giai-tri/hau-truong-showbiz" class="fw-normal nav-link nav-item">Sao
+                    Việt</a>
                 </div>
               </div>
               <div class="nav-item d-none d-xxl-block">
@@ -3303,7 +3394,8 @@
 
                   <a href="https://vov.vn/quan-su-quoc-phong/vu-khi" class="fw-normal nav-link nav-item">Vũ khí</a>
 
-                  <a href="https://vov.vn/quan-su-quoc-phong/viet-nam" class="fw-normal nav-link nav-item">Việt Nam</a>
+                  <a href="https://vov.vn/quan-su-quoc-phong/viet-nam" class="fw-normal nav-link nav-item">Việt
+                    Nam</a>
 
                   <a href="https://vov.vn/quan-su-quoc-phong/phan-tich" class="fw-normal nav-link nav-item">Phân
                     tích</a>
@@ -3370,13 +3462,16 @@
                 <ul class="list-unstyled">
 
                   <li class="navbar-item"><a href="https://vov.vn/chinh-tri/dang"
-                      class="nav-link text-vov-black">Đảng</a></li>
+                      class="nav-link text-vov-black">Đảng</a>
+                  </li>
 
-                  <li class="navbar-item"><a href="https://vov.vn/nhan-su" class="nav-link text-vov-black">Tổ chức nhân
+                  <li class="navbar-item"><a href="https://vov.vn/nhan-su" class="nav-link text-vov-black">Tổ chức
+                      nhân
                       sự</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/chinh-tri/quoc-hoi"
-                      class="nav-link text-vov-black">Quốc hội</a></li>
+                      class="nav-link text-vov-black">Quốc
+                      hội</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/chinh-tri/nhan-dien-su-that"
                       class="nav-link text-vov-black">Nhận diện sự thật</a></li>
@@ -3402,10 +3497,12 @@
                   <li class="navbar-item"><a href="https://vov.vn/xa-hoi/dau-an-vov" class="nav-link text-vov-black">Dấu
                       ấn VOV</a></li>
 
-                  <li class="navbar-item"><a href="https://vov.vn/viec-lam" class="nav-link text-vov-black">Việc làm</a>
+                  <li class="navbar-item"><a href="https://vov.vn/viec-lam" class="nav-link text-vov-black">Việc
+                      làm</a>
                   </li>
 
-                  <li class="navbar-item"><a href="https://vov.vn/bien-dao" class="nav-link text-vov-black">Biển đảo</a>
+                  <li class="navbar-item"><a href="https://vov.vn/bien-dao" class="nav-link text-vov-black">Biển
+                      đảo</a>
                   </li>
                 </ul>
               </div>
@@ -3418,7 +3515,8 @@
                 <ul class="list-unstyled">
 
                   <li class="navbar-item"><a href="https://vov.vn/the-gioi/quan-sat"
-                      class="nav-link text-vov-black">Quan sát</a></li>
+                      class="nav-link text-vov-black">Quan
+                      sát</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/the-gioi/cuoc-song-do-day"
                       class="nav-link text-vov-black">Cuộc sống đó đây</a></li>
@@ -3439,7 +3537,8 @@
                       class="nav-link text-vov-black">Video</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/multimedia/anh"
-                      class="nav-link text-vov-black">Ảnh</a></li>
+                      class="nav-link text-vov-black">Ảnh</a>
+                  </li>
 
                   <li class="navbar-item"><a href="https://vov.vn/multimedia/e-magazine"
                       class="nav-link text-vov-black">E-Magazine</a></li>
@@ -3457,7 +3556,8 @@
                 <ul class="list-unstyled">
 
                   <li class="navbar-item"><a href="https://vov.vn/kinh-te/bat-dong-san"
-                      class="nav-link text-vov-black">Bất động sản</a></li>
+                      class="nav-link text-vov-black">Bất
+                      động sản</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/khoi-nghiep" class="nav-link text-vov-black">Khởi
                       nghiệp</a></li>
@@ -3472,10 +3572,12 @@
                 <ul class="list-unstyled">
 
                   <li class="navbar-item"><a href="https://vov.vn/thi-truong/gia-vang"
-                      class="nav-link text-vov-black">Giá vàng</a></li>
+                      class="nav-link text-vov-black">Giá
+                      vàng</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/thi-truong/tieu-dung"
-                      class="nav-link text-vov-black">Tiêu dùng</a></li>
+                      class="nav-link text-vov-black">Tiêu
+                      dùng</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/thi-truong/ty-gia" class="nav-link text-vov-black">Tỷ
                       giá</a></li>
@@ -3484,7 +3586,8 @@
                       class="nav-link text-vov-black">Chứng khoán</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/thi-truong/gia-ca-phe"
-                      class="nav-link text-vov-black">Giá cà phê</a></li>
+                      class="nav-link text-vov-black">Giá
+                      cà phê</a></li>
                 </ul>
               </div>
             </div>
@@ -3495,13 +3598,16 @@
                 </h5>
                 <ul class="list-unstyled">
 
-                  <li class="navbar-item"><a href="https://vov.vn/vu-an" class="nav-link text-vov-black">Vụ án</a></li>
+                  <li class="navbar-item"><a href="https://vov.vn/vu-an" class="nav-link text-vov-black">Vụ án</a>
+                  </li>
 
-                  <li class="navbar-item"><a href="https://vov.vn/tin-nong" class="nav-link text-vov-black">Tin nóng</a>
+                  <li class="navbar-item"><a href="https://vov.vn/tin-nong" class="nav-link text-vov-black">Tin
+                      nóng</a>
                   </li>
 
                   <li class="navbar-item"><a href="https://vov.vn/phap-luat/tu-van-luat"
-                      class="nav-link text-vov-black">Tư vấn luật</a></li>
+                      class="nav-link text-vov-black">Tư
+                      vấn luật</a></li>
                 </ul>
               </div>
             </div>
@@ -3543,7 +3649,8 @@
                       class="nav-link text-vov-black">eSports</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/the-thao/hau-truong"
-                      class="nav-link text-vov-black">Hậu trường</a></li>
+                      class="nav-link text-vov-black">Hậu
+                      trường</a></li>
                 </ul>
               </div>
             </div>
@@ -3576,12 +3683,14 @@
                       class="nav-link text-vov-black">Thông tin doanh nghiệp</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/doanh-nghiep-24h"
-                      class="nav-link text-vov-black">Doanh nghiệp 24h</a></li>
+                      class="nav-link text-vov-black">Doanh
+                      nghiệp 24h</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/doanh-nhan" class="nav-link text-vov-black">Doanh
                       nhân</a></li>
 
-                  <li class="navbar-item"><a href="https://vov.vn/vi-cong-dong" class="nav-link text-vov-black">Vì cộng
+                  <li class="navbar-item"><a href="https://vov.vn/vi-cong-dong" class="nav-link text-vov-black">Vì
+                      cộng
                       đồng</a></li>
                 </ul>
               </div>
@@ -3594,7 +3703,8 @@
                 <ul class="list-unstyled">
 
                   <li class="navbar-item"><a href="https://vov.vn/cong-nghe/sanh-dieu"
-                      class="nav-link text-vov-black">Sành điệu</a></li>
+                      class="nav-link text-vov-black">Sành
+                      điệu</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/cong-nghe/tin-cong-nghe"
                       class="nav-link text-vov-black">Tin Công nghệ</a></li>
@@ -3615,13 +3725,16 @@
                 <ul class="list-unstyled">
 
                   <li class="navbar-item"><a href="https://vov.vn/dinh-duong-mon-ngon"
-                      class="nav-link text-vov-black">Dinh dưỡng - món ngon</a></li>
+                      class="nav-link text-vov-black">Dinh
+                      dưỡng - món ngon</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/suc-khoe/cay-thuoc"
-                      class="nav-link text-vov-black">Cây thuốc</a></li>
+                      class="nav-link text-vov-black">Cây
+                      thuốc</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/suc-khoe/san-phu-khoa"
-                      class="nav-link text-vov-black">Sản phụ khoa</a></li>
+                      class="nav-link text-vov-black">Sản
+                      phụ khoa</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/suc-khoe/nhi-khoa" class="nav-link text-vov-black">Nhi
                       khoa</a></li>
@@ -3653,7 +3766,8 @@
                   <li class="navbar-item"><a href="https://vov.vn/blog" class="nav-link text-vov-black">Blog</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/tinh-yeu-gia-dinh"
-                      class="nav-link text-vov-black">Tình yêu - Gia đình</a></li>
+                      class="nav-link text-vov-black">Tình
+                      yêu - Gia đình</a></li>
                 </ul>
               </div>
             </div>
@@ -3689,7 +3803,8 @@
                       sĩ</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/thoi-trang-lam-dep"
-                      class="nav-link text-vov-black">Thời trang</a></li>
+                      class="nav-link text-vov-black">Thời
+                      trang</a></li>
 
                   <li class="navbar-item"><a href="https://vov.vn/giai-tri/hau-truong-showbiz"
                       class="nav-link text-vov-black">Sao Việt</a></li>
@@ -3751,9 +3866,8 @@
 
         </div>
       </div>
-
-
     </header>
+    <div id="JBM_VOV_Top_Header" google-side-rail-overlap="false" style="background-color: #fafafa !important;"></div>
     <style>
       @media screen and (max-width: 767px) {
         .menu-mobile-fixed {
@@ -3763,8 +3877,7 @@
       }
     </style>
     <section class="vovvn-body page-normal">
-      <div id="JBM_VOV_Top_Header"></div>
-      <div class="container">
+      <div class="container" google-side-rail-overlap="false">
         <div class="row">
           <div class="col">
             <div class="ads_detail_top advertisement ads-bg">
@@ -3787,7 +3900,7 @@
 
             <article data-history-node-id="1297814" role="article"
               about="/chinh-tri/toan-van-phat-bieu-cua-tong-bi-thu-chu-tich-nuoc-tai-dai-hoi-cong-doan-viet-nam-lan-thu-xiv-post1297814.vov"
-              class="detail detail--normal" itemprop="articleBody">
+              class="detail detail--normal" itemprop="articleBody" google-side-rail-overlap="false">
               <div class="row article-breadcrumb d-none d-md-block">
                 <div class="col">
                   <nav role="navigation" aria-labelledby="system-breadcrumb">
@@ -4691,9 +4804,6 @@
           </div>
           <div class="col-md-12 col-lg-3 col-xl-330">
             <div id="block-facebooksidebar-2" data-block-plugin-id="block_content:c88807ca-43d2-4f25-bdba-7f30b1a8ff47">
-
-
-
               <div>
                 <div style="display: none;">&nbsp;</div>
 
@@ -4869,8 +4979,8 @@
                             srcset="https://media.vov.vn/sites/default/files/styles/front_large_watermark/public/2026-06/z7899635968166_c7da736f26896255e2cfcffc94913d42_20260604143241.jpg?resize=p_8,w_364">
                           <source media="(min-width:0px)"
                             srcset="https://media.vov.vn/sites/default/files/styles/front_large_watermark/public/2026-06/z7899635968166_c7da736f26896255e2cfcffc94913d42_20260604143241.jpg?resize=p_8,w_364">
-                          <img src="z7899635968166_c7da736f26896255e2cfcffc94913d42_20260604143241.jpg"
-                            loading="lazy" alt="Dùng radar xuyên đất hỗ trợ tìm kiếm mộ tập thể liệt sĩ ở Quảng Ngãi"
+                          <img src="z7899635968166_c7da736f26896255e2cfcffc94913d42_20260604143241.jpg" loading="lazy"
+                            alt="Dùng radar xuyên đất hỗ trợ tìm kiếm mộ tập thể liệt sĩ ở Quảng Ngãi"
                             class="img-fluid w-100">
                         </picture>
                       </a>
@@ -4935,8 +5045,8 @@
                             srcset="https://media.vov.vn/sites/default/files/styles/front_large_watermark/public/2026-05/xd8.jpg?resize=p_8,w_364">
                           <source media="(min-width:0px)"
                             srcset="https://media.vov.vn/sites/default/files/styles/front_large_watermark/public/2026-05/xd8.jpg?resize=p_8,w_364">
-                          <img src="xd8.jpg" loading="lazy"
-                            alt="Giá xăng dầu đồng loạt giảm từ 15h chiều nay 4/6" class="img-fluid w-100">
+                          <img src="xd8.jpg" loading="lazy" alt="Giá xăng dầu đồng loạt giảm từ 15h chiều nay 4/6"
+                            class="img-fluid w-100">
                         </picture>
                       </a>
                       <div class="card-body p-0">
@@ -4998,8 +5108,7 @@
                             srcset="https://media.vov.vn/sites/default/files/styles/front_large/public/2026-06/tau_ngam_hat_nhan_lop_suffren_cua_phap._anh_creative_commons.jpg?resize=p_8,w_364">
                           <source media="(min-width:0px)"
                             srcset="https://media.vov.vn/sites/default/files/styles/front_large/public/2026-06/tau_ngam_hat_nhan_lop_suffren_cua_phap._anh_creative_commons.jpg?resize=p_8,w_364">
-                          <img src="tau_ngam_hat_nhan_lop_suffren_cua_phap._anh_creative_commons.jpg"
-                            loading="lazy"
+                          <img src="tau_ngam_hat_nhan_lop_suffren_cua_phap._anh_creative_commons.jpg" loading="lazy"
                             alt="“Sát thủ đại dương” Suffren: Tàu ngầm hạt nhân mới của Pháp khiến NATO chú ý"
                             class="img-fluid w-100">
                         </picture>
@@ -5660,8 +5769,7 @@
                               srcset="https://media.vov.vn/sites/default/files/styles/front_large/public/2026-06/vov_thu_tuong_le_minh_hung_chi_dao_hoi_nghi_bch_dang_bo_4.jpg?resize=p_8,w_364">
                             <source media="(min-width:0px)"
                               srcset="https://media.vov.vn/sites/default/files/styles/front_large/public/2026-06/vov_thu_tuong_le_minh_hung_chi_dao_hoi_nghi_bch_dang_bo_4.jpg?resize=p_8,w_364">
-                            <img src="vov_thu_tuong_le_minh_hung_chi_dao_hoi_nghi_bch_dang_bo_4.jpg"
-                              loading="lazy"
+                            <img src="vov_thu_tuong_le_minh_hung_chi_dao_hoi_nghi_bch_dang_bo_4.jpg" loading="lazy"
                               alt="Thủ tướng Lê Minh Hưng chủ trì hội nghị Ban Chấp hành Đảng bộ Chính phủ"
                               class="img-fluid w-100">
                           </picture>
@@ -5790,7 +5898,7 @@
     </section>
 
     <footer class="vovvn-footer bg-vov-primary">
-      <div class="container" >
+      <div class="container">
 
         <table class="table footer-menu d-none d-xl-table">
           <tbody>
@@ -5963,8 +6071,8 @@
                       class=""></iframe></span>
                 </div>
                 <a href="https://tinnhiemmang.vn/danh-ba-tin-nhiem/vovvn-1625717697" class="tinnhiemmang"
-                  title="Chung nhan Tin Nhiem Mang" target="_blank"><img src="handle_cert" width="140px"
-                    height="auto" alt="Chung nhan Tin Nhiem Mang"></a>
+                  title="Chung nhan Tin Nhiem Mang" target="_blank"><img src="handle_cert" width="140px" height="auto"
+                    alt="Chung nhan Tin Nhiem Mang"></a>
               </div>
             </div>
           </div>
@@ -6163,86 +6271,86 @@
   </div>
   <div id="professor_prebid-root"></div>
 
-<script id="responsive-js">
-(function() {
-  'use strict';
+  <script id="responsive-js">
+    (function () {
+      'use strict';
 
-  // Fix ad containers with dynamic inline widths
-  function fixAdContainerWidths() {
-    var vw = window.innerWidth;
-    var adContainers = document.querySelectorAll('.jb-acme-ad-container, .jb-acme-ad');
-    adContainers.forEach(function(el) {
-      var inlineW = parseInt(el.style.width);
-      if (inlineW && inlineW > vw) {
-        el.style.setProperty('width', '100%', 'important');
-        el.style.setProperty('max-width', '100%', 'important');
-        el.style.setProperty('overflow', 'hidden', 'important');
+      // Fix ad containers with dynamic inline widths
+      function fixAdContainerWidths() {
+        var vw = window.innerWidth;
+        var adContainers = document.querySelectorAll('.jb-acme-ad-container, .jb-acme-ad');
+        adContainers.forEach(function (el) {
+          var inlineW = parseInt(el.style.width);
+          if (inlineW && inlineW > vw) {
+            el.style.setProperty('width', '100%', 'important');
+            el.style.setProperty('max-width', '100%', 'important');
+            el.style.setProperty('overflow', 'hidden', 'important');
+          }
+        });
+
+        // Fix inline-styled images in article content
+        var articleImages = document.querySelectorAll('.article-content div[style*="width"], .article-content figure[style*="width"], .gallery-embed > div[style*="width"]');
+        articleImages.forEach(function (el) {
+          var inlineW = parseInt(el.style.width);
+          if (inlineW && inlineW > vw) {
+            el.style.setProperty('width', '100%', 'important');
+            el.style.setProperty('max-width', '100%', 'important');
+          }
+        });
       }
-    });
 
-    // Fix inline-styled images in article content
-    var articleImages = document.querySelectorAll('.article-content div[style*="width"], .article-content figure[style*="width"], .gallery-embed > div[style*="width"]');
-    articleImages.forEach(function(el) {
-      var inlineW = parseInt(el.style.width);
-      if (inlineW && inlineW > vw) {
-        el.style.setProperty('width', '100%', 'important');
-        el.style.setProperty('max-width', '100%', 'important');
+      // Prevent horizontal scroll on body
+      function fixOverflow() {
+        document.documentElement.style.overflowX = 'hidden';
+        document.body.style.overflowX = 'hidden';
       }
-    });
-  }
 
-  // Prevent horizontal scroll on body
-  function fixOverflow() {
-    document.documentElement.style.overflowX = 'hidden';
-    document.body.style.overflowX = 'hidden';
-  }
+      // Run fixes on load and resize
+      function runFixes() {
+        fixAdContainerWidths();
+        fixOverflow();
+      }
 
-  // Run fixes on load and resize
-  function runFixes() {
-    fixAdContainerWidths();
-    fixOverflow();
-  }
-
-  // Use MutationObserver to catch dynamically added ad containers
-  var adObserver = new MutationObserver(function(mutations) {
-    var shouldFix = false;
-    for (var i = 0; i < mutations.length; i++) {
-      var m = mutations[i];
-      if (m.type === 'attributes' && m.attributeName === 'style') {
-        if (m.target.classList && (m.target.classList.contains('jb-acme-ad-container') || m.target.classList.contains('jb-acme-ad'))) {
-          shouldFix = true;
-          break;
+      // Use MutationObserver to catch dynamically added ad containers
+      var adObserver = new MutationObserver(function (mutations) {
+        var shouldFix = false;
+        for (var i = 0; i < mutations.length; i++) {
+          var m = mutations[i];
+          if (m.type === 'attributes' && m.attributeName === 'style') {
+            if (m.target.classList && (m.target.classList.contains('jb-acme-ad-container') || m.target.classList.contains('jb-acme-ad'))) {
+              shouldFix = true;
+              break;
+            }
+          } else if (m.type === 'childList') {
+            shouldFix = true;
+            break;
+          }
         }
-      } else if (m.type === 'childList') {
-        shouldFix = true;
-        break;
+        if (shouldFix) requestAnimationFrame(runFixes);
+      });
+
+      function init() {
+        runFixes();
+        // Observe the full document for dynamic ad style changes
+        adObserver.observe(document.body, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['style']
+        });
       }
-    }
-    if (shouldFix) requestAnimationFrame(runFixes);
-  });
 
-  function init() {
-    runFixes();
-    // Observe the full document for dynamic ad style changes
-    adObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['style']
-    });
-  }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  window.addEventListener('resize', function() {
-    requestAnimationFrame(runFixes);
-  }, { passive: true });
-})();
-</script>
+      window.addEventListener('resize', function () {
+        requestAnimationFrame(runFixes);
+      }, { passive: true });
+    })();
+  </script>
 
 </body>
 
